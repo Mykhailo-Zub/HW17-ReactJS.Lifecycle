@@ -1,26 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+
+import Timer from "./components/Timer";
+
+const timerSettings = {
+    time: 15000,
+    step: 1000,
+    autostart: true,
+    active: false,
+};
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <div className="wrapper">
+            <Timer
+                time={timerSettings.time}
+                step={timerSettings.step}
+                autoStart={timerSettings.autostart}
+                active={timerSettings.active}
+                defaultTime={timerSettings.time}
+                onTick={(time) => console.log("Time left: " + time + "ms")}
+                onTimeEnd={() => console.log("Time is over!")}
+                onTimeStart={() => console.log("Timer started")}
+                onTimePause={() => console.log("Timer paused")}
+            />
+        </div>
+    );
 }
 
 export default App;

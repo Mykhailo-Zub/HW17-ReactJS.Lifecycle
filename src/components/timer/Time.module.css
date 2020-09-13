@@ -1,0 +1,9 @@
+.clock {
+    font-size: 45px;
+}
+
+.seconds {
+    font-size: 50px;
+    font-weight: 600;
+    color: red;
+}
