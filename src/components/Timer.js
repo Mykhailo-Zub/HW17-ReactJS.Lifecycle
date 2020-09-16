@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import Time from "./timer/Time";
+import Time from "./time/Time";
 
 const Timer = ({
     time,
@@ -14,19 +14,21 @@ const Timer = ({
     onTimePause,
 }) => {
     const [isActive, setActive] = useState(active);
-    const [currentTime, setTtime] = useState(time);
-    const [isAutostart, switchOffAutostart] = useState(autoStart);
-    const [hh, setHh] = useState("00");
-    const [mm, setMm] = useState("00");
-    const [ss, setSs] = useState("00");
+    const [currentTime, setCurrentTime] = useState(time);
+    const [isAutostart, setIsAutostart] = useState(autoStart);
+    const [hours, setHhours] = useState("00");
+    const [minutes, setMinutes] = useState("00");
+    const [seconds, setSeconds] = useState("00");
 
     let timerId;
 
-    if (isAutostart) {
-        switchOffAutostart(false);
-        setActive(true);
-        onTimeStart();
-    }
+    useEffect(() => {
+        if (isAutostart) {
+            setIsAutostart(false);
+            setActive(true);
+            onTimeStart();
+        }
+    }, [isAutostart]);
 
     useEffect(() => {
         if (isActive) {
@@ -50,7 +52,7 @@ const Timer = ({
     const timerStart = () => {
         timerId = setInterval(() => {
             if (currentTime) {
-                setTtime(currentTime - step);
+                setCurrentTime(currentTime - step);
                 timeFormatter(currentTime);
                 onTick(currentTime);
             }
@@ -58,25 +60,25 @@ const Timer = ({
                 clearInterval(timerId);
                 onTimeEnd();
                 setActive(false);
-                setTtime(defaultTime);
+                setCurrentTime(defaultTime);
                 timeFormatter(defaultTime);
             }
         }, step);
     };
 
     const timeFormatter = (time) => {
-        let seconds = time / 1000;
-        setHh(() => {
+        const seconds = time / 1000;
+        setHhours(() => {
             if (Math.floor(seconds / 3600) < 10) {
                 return "0" + Math.floor(seconds / 3600);
             } else return Math.floor(seconds / 3600);
         });
-        setMm(() => {
+        setMinutes(() => {
             if (Math.floor((seconds % 3600) / 60) < 10) {
                 return "0" + Math.floor((seconds % 3600) / 60);
             } else return Math.floor((seconds % 3600) / 60);
         });
-        setSs(() => {
+        setSeconds(() => {
             if (Math.floor((seconds % 3600) % 60) < 10) {
                 return "0" + Math.floor((seconds % 3600) % 60);
             } else return Math.floor((seconds % 3600) % 60);
@@ -96,9 +98,9 @@ const Timer = ({
                 {isActive ? "Stop" : "Start"} timer
             </button>
             <Time
-                hours={hh}
-                minutes={mm}
-                seconds={ss}
+                hours={hours}
+                minutes={minutes}
+                seconds={seconds}
                 timebarColor={`rgb(${randomColor()}, ${randomColor()}, ${randomColor()})`}
                 timebarWidth={currentTime + step}
                 startTime={time}

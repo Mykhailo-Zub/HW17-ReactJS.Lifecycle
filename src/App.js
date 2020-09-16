@@ -10,14 +10,15 @@ const timerSettings = {
 };
 
 function App() {
+    const { time, step, autostart, active } = timerSettings;
     return (
         <div className="wrapper">
             <Timer
-                time={timerSettings.time}
-                step={timerSettings.step}
-                autoStart={timerSettings.autostart}
-                active={timerSettings.active}
-                defaultTime={timerSettings.time}
+                time={time}
+                step={step}
+                autoStart={autostart}
+                active={active}
+                defaultTime={time}
                 onTick={(time) => console.log("Time left: " + time + "ms")}
                 onTimeEnd={() => console.log("Time is over!")}
                 onTimeStart={() => console.log("Timer started")}
